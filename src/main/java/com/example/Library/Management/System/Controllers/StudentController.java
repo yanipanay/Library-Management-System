@@ -1,7 +1,7 @@
 package com.example.Library.Management.System.Controllers;
 
 import com.example.Library.Management.System.Entity.Student;
-import com.example.Library.Management.System.Service.StudentService;
+import com.example.Library.Management.System.Service.Interfaces.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

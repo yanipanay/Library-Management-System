@@ -27,6 +27,6 @@ public class Student {
     @Enumerated(EnumType.STRING)
     private Department department;
 
-    @OneToOne(mappedBy = "student")
+    @OneToOne(mappedBy = "student",cascade = CascadeType.ALL)
     private Card card;
 }

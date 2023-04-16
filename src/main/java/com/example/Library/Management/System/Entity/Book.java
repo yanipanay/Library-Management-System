@@ -16,12 +16,16 @@ import lombok.Setter;
 public class Book {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     private String title;
 
     private int price;
 
     @Enumerated(EnumType.STRING)
     private Genere genere;
+
     @ManyToOne
     @JoinColumn
     private Author author;
