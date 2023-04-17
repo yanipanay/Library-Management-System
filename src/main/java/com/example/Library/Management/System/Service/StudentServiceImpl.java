@@ -1,8 +1,12 @@
 package com.example.Library.Management.System.Service;
 
+import com.example.Library.Management.System.DTO.StudentNameChangeReqDTO;
+import com.example.Library.Management.System.DTO.StudentReq;
+import com.example.Library.Management.System.DTO.StudentResposeDTO;
 import com.example.Library.Management.System.Entity.Card;
 import com.example.Library.Management.System.Entity.Student;
 import com.example.Library.Management.System.Enums.Status;
+import com.example.Library.Management.System.Exceptions.StudentNotFoundException;
 import com.example.Library.Management.System.Repository.StudentRepository;
 import com.example.Library.Management.System.Service.Interfaces.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +21,14 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     StudentRepository studentRepository;
-    public String addStudent(Student student){
+    public String addStudent(StudentReq studentDTO){
+
+        Student student = new Student();
+        student.setName(studentDTO.getName());
+        student.setDepartment(studentDTO.getDepartment());
+        student.setEmail(studentDTO.getEmail());
+        student.setMobile(studentDTO.getMobile());
+
         Card card = new Card();
         card.setStudent(student);
         card.setStatus(Status.ACTIVE);
@@ -28,8 +39,8 @@ public class StudentServiceImpl implements StudentService {
         card.setValidDate(expiry);
 
         student.setCard(card);
-
         studentRepository.save(student);
+
         return "success";
     }
 
@@ -41,12 +52,32 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findById(id).get();
     }
 
-    public String updateName(int id,String name){
-        Student st = studentRepository.findById(id).get();
-        st.setName(name);
-        studentRepository.save(st);
+    @Override
+    public StudentResposeDTO updateName(StudentNameChangeReqDTO studentNameChangeReqDTO) throws StudentNotFoundException {
+        int id = studentNameChangeReqDTO.getId();
+        String name = studentNameChangeReqDTO.getName();
+        try{
+            Student st = studentRepository.findById(id).get();
+            st.setName(name);
+            Student updatedStudent = studentRepository.save(st);
 
-        return "successfully updated";
+
+            StudentResposeDTO studentResposeDTO = new StudentResposeDTO();
+
+            studentResposeDTO.setId(st.getId());
+            studentResposeDTO.setDepartment(st.getDepartment());
+            studentResposeDTO.setEmail(st.getEmail());
+            studentResposeDTO.setMobile(st.getMobile());
+            studentResposeDTO.setName(st.getName());
+
+            return studentResposeDTO;
+
+        }
+        catch(Exception e){
+                throw new StudentNotFoundException("invalid id");
+        }
+
+
     }
 
     public String deleteAll(){

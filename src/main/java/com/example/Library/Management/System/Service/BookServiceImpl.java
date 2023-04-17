@@ -8,6 +8,9 @@ import com.example.Library.Management.System.Service.Interfaces.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class BookServiceImpl implements BookService {
     @Autowired
@@ -28,5 +31,19 @@ public class BookServiceImpl implements BookService {
         bookRepository.save(book);
 
         return "book added successfuly";
+    }
+
+    public List<Book> getBooksById(int id){
+        List<Book> books = bookRepository.findAll();
+        List<Book> authorBooks = new ArrayList<>();
+        for(Book book:books){
+            if(book.getAuthor().getId()==id) authorBooks.add(book);
+        }
+
+        return authorBooks;
+    }
+
+    public List<Book> getAll(){
+        return bookRepository.findAll();
     }
 }

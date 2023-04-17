@@ -1,6 +1,10 @@
 package com.example.Library.Management.System.Controllers;
 
+import com.example.Library.Management.System.DTO.StudentNameChangeReqDTO;
+import com.example.Library.Management.System.DTO.StudentReq;
+import com.example.Library.Management.System.DTO.StudentResposeDTO;
 import com.example.Library.Management.System.Entity.Student;
+import com.example.Library.Management.System.Exceptions.StudentNotFoundException;
 import com.example.Library.Management.System.Service.Interfaces.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +18,7 @@ public class StudentController {
     StudentService studentService;
 
     @PostMapping("/add")
-    public String addStudent(@RequestBody Student student){
+    public String addStudent(@RequestBody StudentReq student){
         return studentService.addStudent(student);
     }
 
@@ -28,8 +32,8 @@ public class StudentController {
     }
 
     @PutMapping("/updateName")
-    public String updateStudentName(@RequestParam("id") int id, @RequestParam("name") String name){
-        return studentService.updateName(id,name);
+    public StudentResposeDTO updateStudentName(@RequestBody StudentNameChangeReqDTO studentNameChangeReqDTO) throws StudentNotFoundException {
+        return studentService.updateName(studentNameChangeReqDTO);
     }
 
     @DeleteMapping("/deleteAll")
