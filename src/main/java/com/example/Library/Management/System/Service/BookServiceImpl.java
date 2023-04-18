@@ -1,5 +1,7 @@
 package com.example.Library.Management.System.Service;
 
+import com.example.Library.Management.System.DTO.AddBookDTO;
+import com.example.Library.Management.System.DTO.BookResponseDTO;
 import com.example.Library.Management.System.Entity.Author;
 import com.example.Library.Management.System.Entity.Book;
 import com.example.Library.Management.System.Repository.AuthorRepository;
@@ -17,20 +19,36 @@ public class BookServiceImpl implements BookService {
     BookRepository bookRepository;
     @Autowired
     AuthorRepository authorRepository;
-    public String addBook(Book book) throws Exception {
+    public BookResponseDTO addBook(AddBookDTO addBookDTO) throws Exception {
 
         try{
-            Author auth = authorRepository.findById(book.getAuthor().getId()).get();
-            auth.getBooks().add(book);
+            Author auth = authorRepository.findById(addBookDTO.getAuthorId()).get();
+            Book book = new Book();
+            book.setGenere(addBookDTO.getGenere());
+            book.setTitle(addBookDTO.getTitle());
+            book.setPrice(addBookDTO.getPrice());
             book.setAuthor(auth);
+
+            auth.getBooks().add(book);
+
             authorRepository.save(auth);
+            bookRepository.save(book);
+
+            BookResponseDTO bookResponseDTO= new BookResponseDTO();
+
+            bookResponseDTO.setBookName(book.getTitle());
+
+            bookResponseDTO.setAuthorName(auth.getName());
+
+            bookResponseDTO.setPrice(book.getPrice());
+
+            bookResponseDTO.setGenere(book.getGenere());
+
+            return bookResponseDTO;
         }
         catch(Exception e){
                 throw new Exception("Author not present");
         }
-        bookRepository.save(book);
-
-        return "book added successfuly";
     }
 
     public List<Book> getBooksById(int id){

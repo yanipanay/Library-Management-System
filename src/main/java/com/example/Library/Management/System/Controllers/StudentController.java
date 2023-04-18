@@ -27,7 +27,8 @@ public class StudentController {
         return studentService.getStudents();
     }
     @GetMapping("/get")
-    public Student getStudentById(@RequestParam("id") int id){
+    public StudentResposeDTO getStudentById(@RequestParam("id") int id){
+
         return studentService.getStudent(id);
     }
 

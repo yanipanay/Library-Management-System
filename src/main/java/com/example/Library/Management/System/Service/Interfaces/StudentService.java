@@ -13,7 +13,7 @@ public interface StudentService {
 
     public List<Student> getStudents();
 
-    public  Student getStudent(int id);
+    public  StudentResposeDTO getStudent(int id);
 
     public StudentResposeDTO updateName(StudentNameChangeReqDTO studentNameChangeReqDTO) throws StudentNotFoundException;
 

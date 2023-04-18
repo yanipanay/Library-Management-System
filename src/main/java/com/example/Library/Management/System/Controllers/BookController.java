@@ -1,5 +1,7 @@
 package com.example.Library.Management.System.Controllers;
 
+import com.example.Library.Management.System.DTO.AddBookDTO;
+import com.example.Library.Management.System.DTO.BookResponseDTO;
 import com.example.Library.Management.System.Entity.Book;
 import com.example.Library.Management.System.Service.Interfaces.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,8 @@ public class BookController {
     @Autowired
     BookService bookService;
     @PostMapping("/add")
-    public String addBook(@RequestBody Book book) throws Exception {
-        return bookService.addBook(book);
+    public BookResponseDTO addBook(@RequestBody AddBookDTO addBookDTO) throws Exception {
+        return bookService.addBook(addBookDTO);
     }
 
     //to find books by author id

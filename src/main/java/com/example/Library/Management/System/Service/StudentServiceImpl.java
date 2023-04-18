@@ -48,8 +48,18 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findAll();
     }
 
-    public  Student getStudent(int id){
-        return studentRepository.findById(id).get();
+    public  StudentResposeDTO getStudent(int id){
+        Student st= studentRepository.findById(id).get();
+
+        StudentResposeDTO studentResposeDTO = new StudentResposeDTO();
+
+        studentResposeDTO.setId(st.getId());
+        studentResposeDTO.setDepartment(st.getDepartment());
+        studentResposeDTO.setEmail(st.getEmail());
+        studentResposeDTO.setMobile(st.getMobile());
+        studentResposeDTO.setName(st.getName());
+
+        return studentResposeDTO;
     }
 
     @Override
